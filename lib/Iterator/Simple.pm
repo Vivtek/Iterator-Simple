@@ -3,14 +3,14 @@ package Iterator::Simple;
 use strict;
 
 use Carp;
-use UNIVERSAL qw(isa);
+#use UNIVERSAL qw(isa);
 use Scalar::Util qw(blessed reftype);
 use overload;
 use base qw(Exporter);
 use vars qw($VERSION @EXPORT_OK %EXPORT_TAGS);
 
 use constant ITERATOR_CLASS => 'Iterator::Simple::Iterator';
-$VERSION = '0.05';
+$VERSION = '0.06';
 
 $EXPORT_TAGS{basic} = [qw(iterator iter list is_iterator)];
 $EXPORT_TAGS{utils} = [qw(
@@ -167,7 +167,7 @@ sub ifilter {
 		}
 		while(defined(local $_ = $src->())) {
 			next unless defined($rv = $code->());
-			return $rv unless isa $rv, ITERATOR_CLASS; 
+			return $rv unless eval {$rv->isa(ITERATOR_CLASS)}; 
 			$buf = $rv;
 			return $rv if defined($rv = $buf->());
 			undef $buf;
@@ -232,7 +232,7 @@ sub iflatten {
 		while(1){
 			$rv = $src->();
 			return if not defined $rv;
-			return $rv unless isa $rv, ITERATOR_CLASS; 
+			return $rv unless eval {$rv->isa(ITERATOR_CLASS)}; 
 			$buf = $rv;
 			return $rv if defined($rv = $buf->());
 			undef $buf;
