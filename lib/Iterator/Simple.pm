@@ -569,7 +569,7 @@ return true if C<$object> can be converted with C<iter($object)>
 
 =item list($object)
 
-This fuction converts C<$object> into single array referece.
+This function converts C<$object> into single array referece.
 
 =over 2
 
@@ -644,7 +644,7 @@ For example:
   $itr = iter [ 'foo', 'bar', 'baz', 'fiz' ];
   $filterd = ifilter $itr, sub {
     return if $_ eq 'bar'; #skip
-    retrun iter(['whoa', 'who']) if $_ eq 'baz'; #inflate
+    return iter(['whoa', 'who']) if $_ eq 'baz'; #inflate
     return ":$_:"; # modify
   };
 
@@ -730,7 +730,7 @@ Just bless $coderef in Iterator::Simple::Iterator and returns it.
 
 =item $iterator->next
 
-Call undelying code.
+Call underlying code.
 
 =item $iterator->__iter__
 
