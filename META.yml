@@ -17,4 +17,4 @@ no_index:
 requires: 
   Scalar::Util: 0
 repository: https://github.com/Vivtek/Iterator-Simple
-version: 0.06
+version: 0.07

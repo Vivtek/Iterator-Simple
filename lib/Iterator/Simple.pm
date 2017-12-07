@@ -10,7 +10,7 @@ use base qw(Exporter);
 use vars qw($VERSION @EXPORT_OK %EXPORT_TAGS);
 
 use constant ITERATOR_CLASS => 'Iterator::Simple::Iterator';
-$VERSION = '0.06';
+$VERSION = '0.07';
 
 $EXPORT_TAGS{basic} = [qw(iterator iter list is_iterator)];
 $EXPORT_TAGS{utils} = [qw(
