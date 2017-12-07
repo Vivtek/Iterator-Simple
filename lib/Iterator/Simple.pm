@@ -324,7 +324,7 @@ sub islice {
 	ref($src)->new(sub{
 		return if $next < 0;
 		my $rv;
-		while($rv = $src->()) {
+		while(defined($rv = $src->())) {
 			if($idx++ == $next) {
 				$next += $step;
 				if($end > 0 and $next >= $end) {
