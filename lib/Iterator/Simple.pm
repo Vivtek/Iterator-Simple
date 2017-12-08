@@ -118,19 +118,15 @@ sub list {
 	}
 	if(blessed $self) {
 		if($self->isa(ITERATOR_CLASS)) {
-			my(@list, $val);
-			push @list, $val while defined($val = $self->());
-			return \@list;
+			return $self->list;
 		}
 		my $method;
 		if($method = overload::Method($self,'@{}')) {
 			return $method->($self);
 		}
 		if($method = $self->can('__iter__')) {
-			my(@list, $val);
 			my $iter = $method->($self);
-			push @list, $val while defined($val = $iter->());
-			return \@list;
+			return $iter->list;
 		}
 		if($method = overload::Method($self, '<>') || $self->can('next')) {
 			my(@list, $val);
@@ -366,7 +362,7 @@ sub iarray {
 
 	use Carp;
 	use overload (
-		'<>'  => 'next',
+		'<>'  => sub { wantarray ? @{$_[0]->list} : $_[0]->() },
 		'|' => 'filter',
 		fallback => 1,
 	);
@@ -390,6 +386,11 @@ sub iarray {
 	*slice  = \&Iterator::Simple::islice;
 	sub head { Iterator::Simple::ihead($_[1], $_[0]); }
 	sub skip { Iterator::Simple::iskip($_[1], $_[0]); }
+	sub list {
+		my(@list, $val);
+		push @list, $val while defined($val = $_[0]->());
+		return \@list;
+	}
 }
 
 1;
@@ -775,6 +776,8 @@ is equivalent to:
 =item $iterator->head($count)
 
 =item $iterator->skip($count)
+
+=item $iterator->list()
 
 For example, $iterator->flatten() is equivalent to
 C<iflatten $iterator>.
