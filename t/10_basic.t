@@ -1,4 +1,4 @@
-use Test::More tests => 5;
+use Test::More tests => 6;
 use strict;
 use warnings;
 
@@ -52,6 +52,13 @@ ok( mk_itr(1,5), 'iterator creation' );
 		push @res, $_;
 	}
 	is_deeply ( \@res, [1,2,3,4,5], '"<>" overload' );
+}
+
+#6
+{
+	$itr = mk_itr(1,5);
+	my @res = <$itr>;
+	is_deeply ( \@res, [1,2,3,4,5], '"<>" overload (list context)' );
 }
 
 # @{} overloads could cause confusion

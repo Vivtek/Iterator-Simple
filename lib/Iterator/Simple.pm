@@ -366,7 +366,11 @@ sub iarray {
 
 	use Carp;
 	use overload (
-		'<>'  => 'next',
+		'<>'  => sub {
+			wantarray
+			? @{Iterator::Simple::list($_[0])}
+			: $_[0]->();
+		},
 		'|' => 'filter',
 		fallback => 1,
 	);
